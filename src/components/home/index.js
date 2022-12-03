@@ -19,12 +19,10 @@ const newTuit = {
    TuitService
    .createTuit(userId,newTuit)
    .then((tuit)=>{
-    console.log(' current tuit: '+JSON.stringify(tuit));
     UserService
    .findUserById(tuit.postedBy)
    .then((user)=>{
     
-    console.log(' current user: '+JSON.stringify(user));
     const newTuit = {
       "_id": tuit._id,
       "postedBy": {"username": user.username},
@@ -40,7 +38,6 @@ const newTuit = {
         "likes": 0
       }
     };
- console.log('new tuit to be appended: '+JSON.stringify(newTuit));
 
     setTuitsArray([newTuit,...tuitsArray])
 
@@ -54,8 +51,7 @@ const newTuit = {
  useEffect(() => {
 
   const alreadyPresentTuits=TuitService.findTuitByUser(userId).then((tuits)=>{
-    console.log('tuits by the user: '+JSON.stringify(tuits));
-
+    
     UserService
     .findUserById(userId) 
     .then((user)=>{

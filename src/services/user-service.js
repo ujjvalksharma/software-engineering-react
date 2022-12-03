@@ -38,6 +38,11 @@ export const findUserById = (uid) =>
   axios.get(`${USERS_API}/${uid}`)
     .then(response => response.data);
 
+    export const createUser = (user) =>
+  axios.post(`${USERS_API}`,user)
+    .then(response => response.data);
+
+
     export const deleteUsersByUsername = (username) =>
   axios.delete(`${USERS_API}/username/${username}`)
     .then(response => response.data);
@@ -63,7 +68,8 @@ const service = {
     signup,
     deleteUsersByUsername,
     findUsersByUsername,
-    findUserById
+    findUserById,
+    createUser
 
 }
 
