@@ -17,10 +17,10 @@ export const findTuitByUser = (uid) =>
     .then(response => response.data);
 
 export const createTuit = (uid, tuit) =>{
-  console.log('new tuit creation: '+uid+'tuit: '+JSON.stringify(tuit));
+ // console.log('new tuit creation: '+uid+'tuit: '+JSON.stringify(tuit));
   return axios.post(`${USERS_API}/${uid}/tuits`, tuit)
     .then(response => {
-      console.log('response data: '+JSON.stringify(response.data));
+ //     console.log('response data: '+JSON.stringify(response.data));
       return response.data;
     });
   }
