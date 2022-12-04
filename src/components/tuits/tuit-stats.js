@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import LikeService from '../../services/likes-service';
-//import DislikeService from '../../services/dislikes-service';
+import DislikeService from '../../services/dislikes-service';
 import {useParams} from "react-router-dom";
 
 const TuitStats = ({tuit }) => {
@@ -17,7 +17,7 @@ if(!isTuitLiked){
   setIsTuitDisliked(false);
   setCountOfUsersWhoLikeTheTuit((count)=>count+1);
   if(countOfUsersWhoDislikeTheTuit>0){
-    //DislikeService.deleteDisLike(userId,tuit._id); 
+    DislikeService.deleteDislike(userId,tuit._id); 
   setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
   }
  LikeService.createLike(userId,tuit._id);
@@ -30,11 +30,10 @@ if(!isTuitLiked){
     setIsTuitDisliked(true);
     setIsTuitLiked(false);
     if(countOfUsersWhoLikeTheTuit>0){
-    //  LikeService.deleteLike(userId,tuit._id); 
     setCountOfUsersWhoLikeTheTuit((count)=>count-1);
     LikeService.deleteLike(userId,tuit._id);
     }
-     //DislikeService.createDislike(userId,tuit._id);
+     DislikeService.createDislike(userId,tuit._id);
     setCountOfUsersWhoDislikeTheTuit((count)=>count+1);
   }
    }
@@ -54,7 +53,7 @@ if(!isTuitLiked){
   });
 
   });
-/*
+
   DislikeService.findUsersThatDislikedATuid(tuit._id).then((data)=>{
     setCountOfUsersWhoDislikeTheTuit(data.length);
     
@@ -68,7 +67,7 @@ if(!isTuitLiked){
 });
 
   });
-*/
+
  }, []);
 
 
@@ -84,19 +83,6 @@ if(!isTuitLiked){
           <i className="far fa-retweet me-1"></i>
           {tuit.stats && tuit.stats.retuits}
         </div>
-      {/*<div className="col">
-          <span onClick={() => likeTuit(tuit)}>
-              {
-                tuit.stats && tuit.stats.likes && tuit.stats.likes > 0 &&
-                  <i className="fas fa-heart me-1" style={{color: 'red'}}></i>
-              }
-              {
-                tuit.stats && tuit.stats.likes && tuit.stats.likes <= 0 &&
-                  
-              }
-            {tuit.stats && tuit.stats.likes}
-          </span>
-        </div>*/ }  
         <div className="col">
           {isTuitLiked&&<i className="fas fa-thumbs-up me-1" style={{color: 'blue'}} onClick={() => likeTuit(tuit)} >{countOfUsersWhoLikeTheTuit}</i> }
           {!isTuitLiked&&<i className="fas fa-thumbs-up me-1"  onClick={() => likeTuit(tuit)} >{countOfUsersWhoLikeTheTuit}</i> }
