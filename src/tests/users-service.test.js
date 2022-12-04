@@ -124,7 +124,7 @@ import  UserService from "../services/user-service";
     afterAll(() =>
       // delete the users we inserted
       usernames.map(username =>
-        deleteUsersByUsername(username)
+        UserService.deleteUsersByUsername(username)
       )
     );
   

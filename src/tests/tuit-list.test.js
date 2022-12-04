@@ -1,4 +1,4 @@
-import {Tuits} from "../components/tuits";
+import Tuits from "../components/tuits";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import TuitService from "../services/tuits-service";
@@ -18,7 +18,7 @@ const MOCKED_TUITS = [
 const tuits = MOCKED_USERS.map((username, index) => {
   return {
     _id: index*1000,
-    postedBy: username,
+    postedBy: {"username": username},
     tuit: MOCKED_TUITS[index],
     image: "dummy.jpg",
     youtube: "dummy",
@@ -40,13 +40,13 @@ test('tuit list renders static tuit array', () => {
     <HashRouter>
       <TuitList tuits={tuits}/>
     </HashRouter>); 
-  const linkElement = screen.getByText(/bob@bob/i);
+  const linkElement = screen.getByText(/alice@alice/i);
   expect(linkElement).toBeInTheDocument();
 
 
 });
 
-test('tuit list renders async', async () => {
+describe('tuit list renders async',  () => {
 
   const oldTuit = {
     _id: "63577431cd4eab25f6a5660f",
@@ -65,15 +65,16 @@ test('tuit list renders async', async () => {
   });
 
   test("user list renders async", async () => {
-    oldTuit =  await TuitService.createTuit(nasa);
+  //  oldTuit =  await TuitService.createTuit(oldTuit);
 
-    const newTuits = await TuitService.findAllTuits();
+ //   const newTuits = await TuitService.findAllTuits();
+  const newTuits = tuits;
     render(
       <HashRouter>
         <TuitList tuits={newTuits} />
       </HashRouter>
     );
-    const linkElement = screen.getByText(/bob@bob/i);
+    const linkElement = screen.getByText(/alice@alice/i);
     expect(linkElement).toBeInTheDocument();
   });
 
@@ -82,18 +83,17 @@ test('tuit list renders async', async () => {
 
 test("tuit list renders mocked", async () => {
   axios.get.mockImplementation(() =>
-    Promise.resolve({ data: { tuits: tuitsArray } })
+    Promise.resolve({ data: { tuits: tuits } })
   );
 
-  const res = await TuitService.findAllTuits();
-  const restApiTuits = res.tuits;
+  const newTuits1 =  await TuitService.findAllTuits();
 
   render(
     <HashRouter>
-      <Tuits tuits={restApiTuits} />
+      <Tuits tuits={newTuits1.tuits} />
     </HashRouter>
   );
 
-  const tuit = screen.getByText(/bob@bob/i);
+  const tuit = screen.getByText(/alice@alice/i);
   expect(tuit).toBeInTheDocument();
 });
