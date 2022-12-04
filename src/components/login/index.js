@@ -22,13 +22,13 @@ function Login () {
 
     UserService.deleteUsersByUsername(username);
      let index=usernames.indexOf(username);
-     console.log('deleted index: '+index);
+   //  console.log('deleted index: '+index);
      if (index > -1) { 
          let tempUsernames=usernames;
          tempUsernames.splice(index, 1); 
          setUsernames([...tempUsernames]);
        }
-       console.log('usernames: '+usernames);
+      // console.log('usernames: '+usernames);
 
    }
 
@@ -49,7 +49,7 @@ function Login () {
         .findUsersByUsername(username)
         .then((user)=>{
         if(user!=null){
-          console.log('current selected user: '+JSON.stringify(user));
+        //  console.log('current selected user: '+JSON.stringify(user));
           UserService.login(user)
           .then((user)=>navigate('../user/'+user._id+'/tuiter'))
           .catch((err)=>alert('Default user is not available'));
@@ -69,7 +69,7 @@ function Login () {
 
         useEffect(()=>{
 
-          console.log('I am here');
+         // console.log('I am here');
           const tempUsernames=['nasa', 'spacex', 'alice', 'bob', 'charlie'];
 
           tempUsernames.forEach(function(username){

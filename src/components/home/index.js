@@ -60,7 +60,7 @@ const newTuit = {
 
       for(let i=0;i<tuits.length;i++){
 
-        console.log('current tuit: '+JSON.stringify(tuits[i]));
+     //   console.log('current tuit: '+JSON.stringify(tuits[i]));
 
         const newTuit = {
           "_id": tuits[i]._id,
@@ -78,12 +78,12 @@ const newTuit = {
           }
           
       }
-      console.log('newTuit: '+JSON.stringify(newTuit));
+     // console.log('newTuit: '+JSON.stringify(newTuit));
       tempTuits.push(newTuit);
      
      };
  
-     console.log('final tuits: '+JSON.stringify(tempTuits));
+   //  console.log('final tuits: '+JSON.stringify(tempTuits));
  
      setTuitsArray([...tempTuits,...tuitsArrayJSON,...tuitsArray]);
  
