@@ -30,8 +30,13 @@ export const updateTuit = (tid, tuit) =>
     .then(response => response.data);
 
 export const deleteTuit = (tid) =>
-  axios.delete(`${TUITS_API}/${tid}`)
+  axios.delete(`${TUITS_API}/${tid}`);
+
+
+    export const deleteAllTuitsByUser = (uid) =>
+  axios.delete(`${USERS_API}/${uid}/tuits`)
     .then(response => response.data);
+   
 
 
     const service = {
@@ -40,7 +45,8 @@ export const deleteTuit = (tid) =>
         findTuitByUser,
         createTuit,
         updateTuit,
-        deleteTuit
+        deleteTuit,
+        deleteAllTuitsByUser
     
     }
     

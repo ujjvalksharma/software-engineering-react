@@ -11,11 +11,21 @@ const Home = () => {
   const [tuitsArray, setTuitsArray] = useState([]);
 
   const addTuitForTheUser = () => {
-//6359612e3182d92a93c748b8
 
-  /* const newTuit = {
-      "_id": "123",
-      "postedBy": userId,
+const newTuit = {
+  "tuit": userEnteredtuit.text,
+};
+
+   TuitService
+   .createTuit(userId,newTuit)
+   .then((tuit)=>{
+    UserService
+   .findUserById(tuit.postedBy)
+   .then((user)=>{
+    
+    const newTuit = {
+      "_id": tuit._id,
+      "postedBy": {"username": user.username},
       "tuit": userEnteredtuit.text,
       "image": "",
       "youtube": null,
@@ -29,54 +39,6 @@ const Home = () => {
       }
     };
 
-
-       const newTuit = {
-      "_id": tuit._id,
-      "postedBy": userId,
-      "tuit": tuit.text,
-      "image": "",
-      "youtube": null,
-      "avatarLogo": "",
-      "published": Date.now(),
-      "imageOverlay": null,
-      "stats": {
-        "replies": 0,
-        "retuits": 0,
-        "likes": 0
-      }
-    };
-
-*/
-const newTuit = {
-  "tuit": userEnteredtuit.text,
-};
-   // createTuit(userId,newTuit)
-   TuitService
-   .createTuit(userId,newTuit)
-   .then((tuit)=>{
-
-    UserService
-   .findUserById(tuit.postedBy)
-   .then((user)=>{
-    
-
-    const newTuit = {
-      "_id": tuit._id,
-      "postedBy": {"username": tuit.postedBy.username},
-      "tuit": tuit.text,
-      "image": "",
-      "youtube": null,
-      "avatarLogo": "",
-      "published": Date.now(),
-      "imageOverlay": null,
-      "stats": {
-        "replies": 0,
-        "retuits": 0,
-        "likes": 0
-      }
-    };
-
-
     setTuitsArray([newTuit,...tuitsArray])
 
    })
@@ -89,8 +51,7 @@ const newTuit = {
  useEffect(() => {
 
   const alreadyPresentTuits=TuitService.findTuitByUser(userId).then((tuits)=>{
-    console.log('tuits by the user: '+JSON.stringify(tuits));
-
+    
     UserService
     .findUserById(userId) 
     .then((user)=>{
