@@ -8,9 +8,14 @@ export const createLike = (uid,tid) =>
   axios.post(`${USERS_API}/${uid}/likes/${tid}`)
     .then(response => response.data);
 
-    export const deleteLike = (uid,tid) =>
-  axios.delete(`${USERS_API}/${uid}/likes/${tid}`)
-    .then(response => response.data);
+    export const deleteLike = (uid,tid) =>{
+        console.log('delete like.....'+uid+' tid: '+tid);
+ return  axios.delete(`${USERS_API}/${uid}/likes/${tid}`)
+    .then(response => {
+        console.log('delete like example: '+JSON.stringify(response));
+        return response.data;
+    }).catch((err)=>console.log(JSON.stringify(err)));
+}
 
     export const findTuitsLikedByAUser = (uid) =>
   axios.get(`${USERS_API}/${uid}/likes`)

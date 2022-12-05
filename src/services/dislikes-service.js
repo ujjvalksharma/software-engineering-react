@@ -17,9 +17,8 @@ export const createDislike = (uid,tid) =>
     .then(response => response.data);
 
     export const findUsersThatDislikedATuid = (tid) =>
-    axios.get(`${TUITS_API}/${tid}/likes`)
+    axios.get(`${TUITS_API}/${tid}/dislikes`)
       .then(response => {
-          console.log('response: '+JSON.stringify(response));
           return response.data;
       });
   

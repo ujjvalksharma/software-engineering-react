@@ -12,34 +12,40 @@ const TuitStats = ({tuit }) => {
   const [countOfUsersWhoDislikeTheTuit, setCountOfUsersWhoDislikeTheTuit] = useState(0);
 
  const likeTuit = async () => {
+  LikeService.createLike(userId,tuit._id);
 if(!isTuitLiked){
   setIsTuitLiked(true);
-  setIsTuitDisliked(false);
-  setCountOfUsersWhoLikeTheTuit((count)=>count+1);
-  if(countOfUsersWhoDislikeTheTuit>0){
-    DislikeService.deleteDislike(userId,tuit._id); 
-  setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
+  if(isTuitDisliked){
+    setIsTuitDisliked(false);
+    setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
+    DislikeService.deleteDislike(userId,tuit._id);
   }
+  setCountOfUsersWhoLikeTheTuit((count)=>count+1);
  LikeService.createLike(userId,tuit._id);
 
 }
+
  }
 
  const dislikeTuit = async () => {
-  if(!isTuitDisliked){
-    setIsTuitDisliked(true);
-    setIsTuitLiked(false);
-    if(countOfUsersWhoLikeTheTuit>0){
-    setCountOfUsersWhoLikeTheTuit((count)=>count-1);
-    LikeService.deleteLike(userId,tuit._id);
+ if(!isTuitDisliked){
+  
+   setIsTuitDisliked(true);
+    if(isTuitLiked){
+      setIsTuitLiked(false);
+      setCountOfUsersWhoLikeTheTuit((count)=>count-1);
+      LikeService.deleteLike(userId,tuit._id);
     }
-     DislikeService.createDislike(userId,tuit._id);
     setCountOfUsersWhoDislikeTheTuit((count)=>count+1);
+    DislikeService.createDislike(userId,tuit._id);
+
   }
+
    }
 
  useEffect(() => {
 
+  console.log('use effect called');
   // get initial count of likes and dislikes for the tuit
   LikeService.findUsersThatLikedATuid(tuit._id).then((data)=>{
     setCountOfUsersWhoLikeTheTuit(data.length);
@@ -48,7 +54,6 @@ if(!isTuitLiked){
       const userThatLikedTheTuit= tuit.likedBy;
       if(userThatLikedTheTuit._id === userId){
        setIsTuitLiked(true);
-        setIsTuitDisliked(false);
       }
   });
 
@@ -56,11 +61,10 @@ if(!isTuitLiked){
 
   DislikeService.findUsersThatDislikedATuid(tuit._id).then((data)=>{
     setCountOfUsersWhoDislikeTheTuit(data.length);
-    
+   // console.log('disliked people: '+JSON.stringify(data));
     data.forEach(tuit => {
       const userThatLikedTheTuit= tuit.dislikedBy;
       if(userThatLikedTheTuit._id === userId){
-        setIsTuitLiked(false);
         setIsTuitDisliked(true);
       }
 
