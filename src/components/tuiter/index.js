@@ -27,10 +27,10 @@ function Tuiter () {
           </div>
           <div className="ttr-center-column">
             <Routes>
-              <Route path="/" element={<FallBackHome/>}/>
+              <Route path="/" element={<Home/>}/>
               <Route path="/user/:userId/tuiter/" element={<Home/>}/>
-              <Route path="/tuiter" element={<FallBackHome/>}/>
-              <Route path="/home" element={<FallBackHome/>}/>
+              <Route path="/tuiter" element={<Home/>}/>
+              <Route path="/home" element={<Home/>}/>
               <Route path="/explore" element={<Explore/>}/>
               <Route path="/notifications" element={<Notifications/>}/>
               <Route path="/messages" element={<Messages/>}/>

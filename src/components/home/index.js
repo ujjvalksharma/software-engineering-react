@@ -5,7 +5,8 @@ import TuitService from '../../services/tuits-service';
 import UserService from '../../services/user-service';
 const Home = () => {
 
-  const {userId} = useParams();
+ // const {userId} = useParams();
+   const userId = localStorage.getItem('profile') === undefined ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
   const [userEnteredtuit, setUserEnteredtuit] = useState({'text':null})
   const [tuitsArray, setTuitsArray] = useState([]);
 
@@ -97,7 +98,9 @@ const newTuit = {
 
   return(
 
-    <div className="ttr-home">
+<>
+{userId === '-1' && <h1>PLease login to access the page!</h1>}
+{userId !== '-1' &&    <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
         <div className="d-flex">
@@ -131,6 +134,9 @@ const newTuit = {
       </div>
        <Tuits tuits={tuitsArray}/> 
     </div>
+}
+    </>
+
   );
 };
 export default Home;
