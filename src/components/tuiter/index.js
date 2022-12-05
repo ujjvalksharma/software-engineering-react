@@ -14,6 +14,7 @@ import More from "../more";
 import Login from "../login";
 import FallBackHome from "../FallBackHome";
 import MyLikes from "../profile/my-likes";
+import MyTuits from "../profile/my-tuits"; 
 
 function Tuiter () {
   return(
@@ -38,6 +39,7 @@ function Tuiter () {
               <Route path="/more" element={<More/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/profile/mylikes" element={<MyLikes/>}/>
+              <Route path="/profile/mytuits" element={<MyTuits/>}/>
             </Routes>
           </div>
           <div className="ttr-right-column">
