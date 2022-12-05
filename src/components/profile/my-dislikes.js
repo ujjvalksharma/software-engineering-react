@@ -2,30 +2,40 @@ import React, {useEffect,useState } from "react";
 import Profile from './index';
 //import TuitDataJson from '../tuits/tuits-data.json';
 import Tuits from "../tuits";
-import DisLike from '../../services/dislikes-service';
+import DisLikeService from '../../services/dislikes-service';
 import UserService from '../../services/user-service';
+import { useNavigate } from "react-router-dom";
 const MyDislikes =() =>{
 
     const [tuitsdata, setTuitsdata] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
       
-        UserService.myProfile().then((myCurrentProfile)=>{
+        const tempProfile = localStorage.getItem('profile');
+        if(tempProfile!== undefined && tempProfile!== null){
+      const profileData =JSON.parse(tempProfile);
+      
+      DisLikeService.findTuitsDislikedByAUser(profileData._id)
+      .then((tuitsLikedByMe)=>{
+          
+          for (let i=0;i<tuitsLikedByMe.length;i++) {
+              console.log('json: '+JSON.stringify(tuitsLikedByMe[i]));
+              setTuitsdata((tuitData)=>[tuitsLikedByMe[i].dislikedTuit, ...tuitData]);
+          }
+      });
 
-            DisLike.findTuitsDislikedByAUser(myCurrentProfile._id)
-            .then((tuitsLikedByMe)=>{
-                
-                for (let tempTuit of tuitsLikedByMe) {
-                    setTuitsdata((tuitData)=>[...tempTuit, tuitData]);
-                }
-            });
-        });
-        
+        }
+
     }, []);
     
     return(<>
       <Profile />
-    <h1><center>My Dislikes</center></h1>
+    
+      <ul className="nav nav-tabs">
+    <li onClick={()=>navigate('../profile/mytuits')}><a className="#">My Tuits</a></li>
+    <li className="active"  onClick={()=>navigate('../profile/mydislike')} ><a className="#">My  Dislike Tuits</a></li>
+    <li  onClick={()=>navigate('../profile/mylikes')}  ><a className="#">My Like Tuits</a></li>
+  </ul>
     <Tuits tuits={tuitsdata}/> 
     </>); 
 }

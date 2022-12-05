@@ -1,5 +1,6 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import {Routes, Route} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 /*
 import MyTuits from "./my-tuits";
 import TuitsAndReplies
@@ -9,27 +10,31 @@ import MyLikes from "./my-likes";
 
 const Profile = () => {
 
+  const [currentUser, setCurrentUser] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    const tempProfile = localStorage.getItem('profile');
+    if(tempProfile!== undefined && tempProfile!== null){
+  const data =JSON.parse(tempProfile);
+  setCurrentUser(data);
+    }
+     
+
+  }, [])
+
+
   const logout =()=>{
-    alert('logout button clicked');
+  // localStorage.removeItem('profile');
+   navigate('../login');
   }
   return(
     <div>
-      <h4>{"ujjval"}</h4>
-      <h6>@{"ujjval"}</h6>
+      <h4>{currentUser.username}</h4>
+      <h6>@{currentUser.username}</h6>
       <button onClick={()=> logout()}>
         Logout</button>
-
-      <Routes>
-    {/*      <Route path="/mytuits"
-               element={<MyTuits/>}/>
-      <Route path="/tuits-and-replies"
-               element={<TuitsAndReplies/>}/> 
-        <Route path="/media"
-               element={<Media/>}/> */}
-        <Route path="profile/mylikes"
-               element={<MyLikes/>}/>
-      </Routes>
-
+        <br />
+        <br />
     </div>
   );
 };

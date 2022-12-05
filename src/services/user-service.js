@@ -36,7 +36,10 @@ export const findUserById = (uid) =>
 
     export const login = (user) =>
     axios.put(`${LOGIN_API}`, user)
-      .then(response => response.data);
+      .then(response => {
+        localStorage.setItem('profile', JSON.stringify(response.data));
+        return response.data
+      });
 
       export const findAllUsers = () =>
       axios.get(`${USERS_API}`).then(response => response.data);

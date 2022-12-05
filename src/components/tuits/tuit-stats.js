@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 
 const TuitStats = ({tuit }) => {
 
-  const {userId} = useParams();
+  const userId = JSON.parse(localStorage.getItem('profile'))._id;
   const [isTuitLiked, setIsTuitLiked] = useState(false);
   const [isTuitDisliked, setIsTuitDisliked] = useState(false);
   const [countOfUsersWhoLikeTheTuit, setCountOfUsersWhoLikeTheTuit] = useState(0);

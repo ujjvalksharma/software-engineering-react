@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import Tuits from "../tuits";
-import tuitsArrayJSON from "../tuits/tuits-data.json"
 import {useParams} from "react-router-dom";
 import TuitService from '../../services/tuits-service';
 import UserService from '../../services/user-service';
