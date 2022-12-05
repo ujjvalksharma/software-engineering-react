@@ -11,30 +11,35 @@ const TuitStats = ({tuit }) => {
   const [countOfUsersWhoLikeTheTuit, setCountOfUsersWhoLikeTheTuit] = useState(0);
   const [countOfUsersWhoDislikeTheTuit, setCountOfUsersWhoDislikeTheTuit] = useState(0);
 
- const likeTuit = async () => {
-  LikeService.createLike(userId,tuit._id);
+ const likeTuit =  () => {
+
+
 if(!isTuitLiked){
+  console.log('tuit is liked');
   setIsTuitLiked(true);
   if(isTuitDisliked){
+    console.log('tuit disliked is deleted');
     setIsTuitDisliked(false);
     setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
-    DislikeService.deleteDislike(userId,tuit._id);
+    DislikeService.deleteDislike(userId,tuit._id).then(data => console.log('data: '+JSON.stringify(data)));
   }
   setCountOfUsersWhoLikeTheTuit((count)=>count+1);
- LikeService.createLike(userId,tuit._id);
+ LikeService.createLike(userId,tuit._id).then((data)=>console.log('after liked: '+JSON.stringify(data)));
 
 }
 
  }
 
  const dislikeTuit = async () => {
+
  if(!isTuitDisliked){
   
    setIsTuitDisliked(true);
     if(isTuitLiked){
       setIsTuitLiked(false);
       setCountOfUsersWhoLikeTheTuit((count)=>count-1);
-      LikeService.deleteLike(userId,tuit._id);
+       LikeService.deleteLike(userId,tuit._id)
+   .then(data => console.log('data: '+JSON.stringify(data)))
     }
     setCountOfUsersWhoDislikeTheTuit((count)=>count+1);
     DislikeService.createDislike(userId,tuit._id);
@@ -48,6 +53,7 @@ if(!isTuitLiked){
   console.log('use effect called');
   // get initial count of likes and dislikes for the tuit
   LikeService.findUsersThatLikedATuid(tuit._id).then((data)=>{
+    if(data!=null){
     setCountOfUsersWhoLikeTheTuit(data.length);
     
     data.forEach(tuit => {
@@ -56,10 +62,12 @@ if(!isTuitLiked){
        setIsTuitLiked(true);
       }
   });
-
+}
   });
 
   DislikeService.findUsersThatDislikedATuid(tuit._id).then((data)=>{
+
+    if(data!=null){
     setCountOfUsersWhoDislikeTheTuit(data.length);
    // console.log('disliked people: '+JSON.stringify(data));
     data.forEach(tuit => {
@@ -68,8 +76,8 @@ if(!isTuitLiked){
         setIsTuitDisliked(true);
       }
 
-});
-
+     });
+}
   });
 
  }, []);

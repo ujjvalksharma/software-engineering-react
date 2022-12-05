@@ -85,7 +85,7 @@ const newTuit = {
  
    //  console.log('final tuits: '+JSON.stringify(tempTuits));
  
-     setTuitsArray([...tempTuits,...tuitsArrayJSON,...tuitsArray]);
+     setTuitsArray([...tempTuits,...tuitsArray]);
  
     })
 
