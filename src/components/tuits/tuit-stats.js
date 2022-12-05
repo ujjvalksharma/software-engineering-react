@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import LikeService from '../../services/likes-service';
-//import DislikeService from '../../services/dislikes-service';
+import DislikeService from '../../services/dislikes-service';
 import {useParams} from "react-router-dom";
 
 const TuitStats = ({tuit }) => {
@@ -12,35 +12,40 @@ const TuitStats = ({tuit }) => {
   const [countOfUsersWhoDislikeTheTuit, setCountOfUsersWhoDislikeTheTuit] = useState(0);
 
  const likeTuit = async () => {
+  LikeService.createLike(userId,tuit._id);
 if(!isTuitLiked){
   setIsTuitLiked(true);
-  setIsTuitDisliked(false);
-  setCountOfUsersWhoLikeTheTuit((count)=>count+1);
-  if(countOfUsersWhoDislikeTheTuit>0){
-    //DislikeService.deleteDisLike(userId,tuit._id); 
-  setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
+  if(isTuitDisliked){
+    setIsTuitDisliked(false);
+    setCountOfUsersWhoDislikeTheTuit((count)=>count-1);
+    DislikeService.deleteDislike(userId,tuit._id);
   }
+  setCountOfUsersWhoLikeTheTuit((count)=>count+1);
  LikeService.createLike(userId,tuit._id);
 
 }
+
  }
 
  const dislikeTuit = async () => {
-  if(!isTuitDisliked){
-    setIsTuitDisliked(true);
-    setIsTuitLiked(false);
-    if(countOfUsersWhoLikeTheTuit>0){
-    //  LikeService.deleteLike(userId,tuit._id); 
-    setCountOfUsersWhoLikeTheTuit((count)=>count-1);
-    LikeService.deleteLike(userId,tuit._id);
+ if(!isTuitDisliked){
+  
+   setIsTuitDisliked(true);
+    if(isTuitLiked){
+      setIsTuitLiked(false);
+      setCountOfUsersWhoLikeTheTuit((count)=>count-1);
+      LikeService.deleteLike(userId,tuit._id);
     }
-     //DislikeService.createDislike(userId,tuit._id);
     setCountOfUsersWhoDislikeTheTuit((count)=>count+1);
+    DislikeService.createDislike(userId,tuit._id);
+
   }
+
    }
 
  useEffect(() => {
 
+  console.log('use effect called');
   // get initial count of likes and dislikes for the tuit
   LikeService.findUsersThatLikedATuid(tuit._id).then((data)=>{
     setCountOfUsersWhoLikeTheTuit(data.length);
@@ -49,26 +54,24 @@ if(!isTuitLiked){
       const userThatLikedTheTuit= tuit.likedBy;
       if(userThatLikedTheTuit._id === userId){
        setIsTuitLiked(true);
-        setIsTuitDisliked(false);
       }
   });
 
   });
-/*
+
   DislikeService.findUsersThatDislikedATuid(tuit._id).then((data)=>{
     setCountOfUsersWhoDislikeTheTuit(data.length);
-    
+   // console.log('disliked people: '+JSON.stringify(data));
     data.forEach(tuit => {
       const userThatLikedTheTuit= tuit.dislikedBy;
       if(userThatLikedTheTuit._id === userId){
-        setIsTuitLiked(false);
         setIsTuitDisliked(true);
       }
 
 });
 
   });
-*/
+
  }, []);
 
 
@@ -84,19 +87,6 @@ if(!isTuitLiked){
           <i className="far fa-retweet me-1"></i>
           {tuit.stats && tuit.stats.retuits}
         </div>
-      {/*<div className="col">
-          <span onClick={() => likeTuit(tuit)}>
-              {
-                tuit.stats && tuit.stats.likes && tuit.stats.likes > 0 &&
-                  <i className="fas fa-heart me-1" style={{color: 'red'}}></i>
-              }
-              {
-                tuit.stats && tuit.stats.likes && tuit.stats.likes <= 0 &&
-                  
-              }
-            {tuit.stats && tuit.stats.likes}
-          </span>
-        </div>*/ }  
         <div className="col">
           {isTuitLiked&&<i className="fas fa-thumbs-up me-1" style={{color: 'blue'}} onClick={() => likeTuit(tuit)} >{countOfUsersWhoLikeTheTuit}</i> }
           {!isTuitLiked&&<i className="fas fa-thumbs-up me-1"  onClick={() => likeTuit(tuit)} >{countOfUsersWhoLikeTheTuit}</i> }
