@@ -1,4 +1,4 @@
-import Tuits from "../components/tuits";
+/*import Tuits from "../components/tuits";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import TuitService from "../services/tuits-service";
@@ -97,3 +97,74 @@ test("tuit list renders mocked", async () => {
   const tuit = screen.getByText(/alice@alice/i);
   expect(tuit).toBeInTheDocument();
 });
+
+*/
+
+import Tuits from "../components/tuits";
+import {screen, render} from "@testing-library/react";
+import {HashRouter} from "react-router-dom";
+import TuitService from "../services/tuits-service";
+import axios from "axios";
+import TuitList from "../components/tuits";
+
+/*const MOCKED_USERS = [
+  "alice", "bob", "charlie"
+];
+
+const MOCKED_TUITS = [
+  "alice's tuit", "bob's tuit", "charlie's tuit"
+];
+*/
+/*
+const MOCKED_TUITS=[{
+  postedBy:{username:'dummy-username'},
+  tuit: 'Hi! This is my first tuit'
+}];
+*/
+test('tuit list renders static tuit array', () => {
+
+  const MOCKED_USERNAMES = [
+    "alice", "bob", "charlie"
+  ];
+
+  let MOCKED_TUITS=[];
+
+  for(let i=0;i<MOCKED_USERNAMES.length;i++){
+
+    const tuit={
+        _id: i*1000, 
+        postedBy: {"username": MOCKED_USERNAMES[i],"_id": '123' },
+        tuit: 'first tuit from'+MOCKED_USERNAMES[i],
+        image: "dummy.jpg",
+        youtube: "dummy",
+        avatarLogo: "dummy.jpg",
+        published: "Nov 21, 2021",
+        imageOverlay: null,
+        stats: {
+          replies: 1,
+          retuits: 2,
+          likes: 3,
+        },
+      tuit: 'Hi! This is my first tuit from '+MOCKED_USERNAMES[i]
+  }
+    MOCKED_TUITS.push(tuit);
+  }
+// console.log(JSON.stringify(MOCKED_TUITS));
+  
+    render( 
+      <HashRouter>
+        <TuitList tuits={MOCKED_TUITS} isTuitStatPresent={false}/>
+      </HashRouter>); 
+
+    const linkElement = screen.getByText(/alice@alice/i);
+    expect(linkElement).toBeInTheDocument();
+
+  
+ 
+    });
+/*
+test('tuit list renders async', async () => {
+  // TODO: implement this
+})
+*/
+

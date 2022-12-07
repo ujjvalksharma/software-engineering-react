@@ -132,7 +132,7 @@
     });*/
 
 
-    import TuitService, { createTuit } from "../services/tuits-service";
+    import TuitService from "../services/tuits-service";
 
     describe('can create tuit with REST API', () => {
       // TODO: implement this
