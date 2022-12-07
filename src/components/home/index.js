@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import Tuits from "../tuits";
-import tuitsArrayJSON from "../tuits/tuits-data.json"
 import {useParams} from "react-router-dom";
 import TuitService from '../../services/tuits-service';
 import UserService from '../../services/user-service';
 const Home = () => {
 
-  const {userId} = useParams();
+ // const {userId} = useParams();
+   const userId = localStorage.getItem('profile') === null ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
   const [userEnteredtuit, setUserEnteredtuit] = useState({'text':null})
   const [tuitsArray, setTuitsArray] = useState([]);
 
@@ -49,7 +49,7 @@ const newTuit = {
   }
 
  useEffect(() => {
-
+/*
   const alreadyPresentTuits=TuitService.findTuitByUser(userId).then((tuits)=>{
     
     UserService
@@ -85,20 +85,40 @@ const newTuit = {
  
    //  console.log('final tuits: '+JSON.stringify(tempTuits));
  
-     setTuitsArray([...tempTuits,...tuitsArrayJSON,...tuitsArray]);
+     setTuitsArray([...tempTuits,...tuitsArray]);
  
     })
 
 
   });
 
+*/
 
+const getAllTuits = async ()=>{
+  const tuits = await TuitService.findAllTuits();
+  console.log('tuits: '+JSON.stringify(tuits));
+  let tempTuits=[]
+  for(let i=0;i<tuits.length;i++){
 
+    const user = await UserService.findUserById(tuits[i].postedBy);
+    if(user==null)
+    tempTuits.push({...tuits[i], postedBy:{username:'tuiterapp'} });
+    else{
+      tempTuits.push({...tuits[i], postedBy:user });
+    }
+  }
+  setTuitsArray(tempTuits.reverse());
+}
+
+getAllTuits();
+
+console.log('tempTuits[i]: '+JSON.stringify(tuitsArray[0]));
   }, [userId]);
 
   return(
 
-    <div className="ttr-home">
+<>
+   <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
         <div className="d-flex">
@@ -132,6 +152,9 @@ const newTuit = {
       </div>
        <Tuits tuits={tuitsArray}/> 
     </div>
+
+    </>
+
   );
 };
 export default Home;

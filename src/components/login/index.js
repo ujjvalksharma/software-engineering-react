@@ -4,7 +4,7 @@ import React , { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from '../../services/user-service';
 function Login () {
-
+ 
   const navigate = useNavigate();
   const [usernames, setUsernames] = useState([]);
   const [registerUserInformation, setRegisterUserInformation]= useState({
@@ -22,7 +22,7 @@ function Login () {
 
     UserService.deleteUsersByUsername(username);
      let index=usernames.indexOf(username);
-   //  console.log('deleted index: '+index);
+     console.log('deleted index: '+index);
      if (index > -1) { 
          let tempUsernames=usernames;
          tempUsernames.splice(index, 1); 
