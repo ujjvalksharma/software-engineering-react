@@ -11,6 +11,7 @@ import MyLikes from "./my-likes";
 const Profile = () => {
 
   const [currentUser, setCurrentUser] = useState({});
+  const userId = localStorage.getItem('profile') === null ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
   const navigate = useNavigate();
   useEffect(() => {
     const tempProfile = localStorage.getItem('profile');
@@ -24,10 +25,12 @@ const Profile = () => {
 
 
   const logout =()=>{
-  // localStorage.removeItem('profile');
+   localStorage.removeItem('profile');
    navigate('../login');
   }
-  return(
+  return(<>
+    {userId === '-1' && <h1>PLease login to access the page!</h1>}
+{userId !== '-1' &&
     <div>
       <h4>{currentUser.username}</h4>
       <h6>@{currentUser.username}</h6>
@@ -36,6 +39,8 @@ const Profile = () => {
         <br />
         <br />
     </div>
+}
+</>
   );
 };
 export default Profile;

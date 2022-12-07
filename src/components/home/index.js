@@ -6,7 +6,7 @@ import UserService from '../../services/user-service';
 const Home = () => {
 
  // const {userId} = useParams();
-   const userId = localStorage.getItem('profile') === undefined ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
+   const userId = localStorage.getItem('profile') === null ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
   const [userEnteredtuit, setUserEnteredtuit] = useState({'text':null})
   const [tuitsArray, setTuitsArray] = useState([]);
 
@@ -49,7 +49,7 @@ const newTuit = {
   }
 
  useEffect(() => {
-
+/*
   const alreadyPresentTuits=TuitService.findTuitByUser(userId).then((tuits)=>{
     
     UserService
@@ -92,15 +92,33 @@ const newTuit = {
 
   });
 
+*/
 
+const getAllTuits = async ()=>{
+  const tuits = await TuitService.findAllTuits();
+  console.log('tuits: '+JSON.stringify(tuits));
+  let tempTuits=[]
+  for(let i=0;i<tuits.length;i++){
 
+    const user = await UserService.findUserById(tuits[i].postedBy);
+    if(user==null)
+    tempTuits.push({...tuits[i], postedBy:{username:'tuiterapp'} });
+    else{
+      tempTuits.push({...tuits[i], postedBy:user });
+    }
+  }
+  setTuitsArray(tempTuits.reverse());
+}
+
+getAllTuits();
+
+console.log('tempTuits[i]: '+JSON.stringify(tuitsArray[0]));
   }, [userId]);
 
   return(
 
 <>
-{userId === '-1' && <h1>PLease login to access the page!</h1>}
-{userId !== '-1' &&    <div className="ttr-home">
+   <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
         <div className="d-flex">
@@ -134,7 +152,7 @@ const newTuit = {
       </div>
        <Tuits tuits={tuitsArray}/> 
     </div>
-}
+
     </>
 
   );
