@@ -8,6 +8,7 @@ const MyTuits =() =>{
 
     const [tuitsdata, setTuitsdata] = useState([]);
     const navigate = useNavigate();
+    const userId = localStorage.getItem('profile') === null ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
     useEffect(() => {
       
         const tempProfile = localStorage.getItem('profile');
@@ -28,6 +29,8 @@ const MyTuits =() =>{
     }, []);
     
     return(<>
+        {userId === '-1' && <h1>PLease login to access the page!</h1>}
+{userId !== '-1' &&<>
       <Profile />
       <ul className="nav nav-tabs">
     <li className="active" onClick={()=>navigate('../profile/mytuits')}><a className="#">My Tuits</a></li>
@@ -36,6 +39,8 @@ const MyTuits =() =>{
   </ul>
     <h1><center>My Tuits</center></h1>
     <Tuits tuits={tuitsdata}/> 
+    </>
+}
     </>); 
 }
 
