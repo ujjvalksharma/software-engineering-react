@@ -9,8 +9,8 @@ export const createDislike = (uid,tid) =>
     .then(response => response.data);
 
     export const deleteDislike = (uid,tid) =>
-  axios.delete(`${USERS_API}/${uid}/dislikes/${tid}`)
-    .then(response => response.data);
+    fetch(BASE_URL+'/users/'+uid+'/dislikes/'+tid, { method: "delete" })
+    .then(res => res.json())
 
     export const findTuitsDislikedByAUser = (  uid) =>
   axios.get(`${USERS_API}/${uid}/dislikes`)

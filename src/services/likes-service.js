@@ -5,17 +5,13 @@ const TUITS_API = `${BASE_URL}/tuits`;
 
 
 export const createLike = (uid,tid) =>
-  axios.post(`${USERS_API}/${uid}/likes/${tid}`)
-    .then(response => response.data);
+fetch(BASE_URL+'/users/'+uid+'/likes/'+tid, { method: "post" })
+.then(res => res.json())
 
-    export const deleteLike = (uid,tid) =>{
-        console.log('delete like.....'+uid+' tid: '+tid);
- return  axios.delete(`${USERS_API}/${uid}/likes/${tid}`)
-    .then(response => {
-        console.log('delete like example: '+JSON.stringify(response));
-        return response.data;
-    }).catch((err)=>console.log(JSON.stringify(err)));
-}
+    export const deleteLike = (uid,tid) =>
+    fetch(BASE_URL+'/users/'+uid+'/likes/'+tid, { method: "delete" })
+    .then(res => res.json())
+
 
     export const findTuitsLikedByAUser = (uid) =>
   axios.get(`${USERS_API}/${uid}/likes`)
@@ -24,7 +20,7 @@ export const createLike = (uid,tid) =>
     export const findUsersThatLikedATuid = (tid) =>
     axios.get(`${TUITS_API}/${tid}/likes`)
       .then(response => {
-          console.log('response: '+JSON.stringify(response));
+        //  console.log('response: '+JSON.stringify(response));
           return response.data;
       });
   
