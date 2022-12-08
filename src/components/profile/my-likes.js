@@ -19,14 +19,19 @@ const Mylikes =() =>{
       LikeService.findTuitsLikedByAUser(profileData._id)
       .then((tuitsLikedByMe)=>{
           
-          for (let i=0;i<tuitsLikedByMe.length;i++) {
-              const tempTuit={
-                  ...tuitsLikedByMe[i].likedTuit,
-                  postedBy: tuitsLikedByMe[i].likedBy
+        const setLikeTuits = async () =>{
+            for (let i=0;i<tuitsLikedByMe.length;i++) {
 
-              };
-              setTuitsdata((tuitData)=>[tempTuit, ...tuitData]);
-          }
+                const tuitOwner= await UserService.findUserById(tuitsLikedByMe[i].likedTuit.postedBy)
+                  const tempTuit={
+                      ...tuitsLikedByMe[i].likedTuit,
+                      postedBy: tuitOwner
+    
+                  };
+                  setTuitsdata((tuitData)=>[tempTuit, ...tuitData]);
+              }
+        }
+        setLikeTuits();
       });
 
         }
