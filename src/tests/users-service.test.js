@@ -16,7 +16,7 @@ describe('createUser', () => {
 
     // verify inserted user's properties match parameter user
     expect(newUser.username).toEqual(ripley.username);
-    expect(newUser.password).toEqual(ripley.password);
+    expect(newUser.password).toEqual(ripley.password); 
     expect(newUser.email).toEqual(ripley.email);
     const status = await UserService.deleteUsersByUsername(ripley.username)
   });
@@ -71,32 +71,7 @@ describe('findUserById',  () => {
 
 
 describe('findAllUsers',  () => {
-/*
-  // sample users we'll insert to then retrieve
-  const usernames = [
-    "larry", "curley", "moe"
-  ];
 
-  // setup data before test
-  beforeAll(() =>
-    // insert several known users
-    usernames.map(username =>
-      createUser({
-        username,
-        password: `${username}123`,
-        email: `${username}@stooges.com`
-      })
-    )
-  );
-
-  // clean up after ourselves
-  afterAll(() =>
-    // delete the users we inserted
-    usernames.map(username =>
-      deleteUsersByUsername(username)
-    )
-  );
-*/
   test('can retrieve all users from REST API', async () => {
 
 

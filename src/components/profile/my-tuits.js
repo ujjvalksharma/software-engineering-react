@@ -19,7 +19,7 @@ const MyTuits =() =>{
       .then((tuitsLikedByMe)=>{
           
           for (let i=0;i<tuitsLikedByMe.length;i++) {
-              console.log('json: '+JSON.stringify(tuitsLikedByMe[i]));
+              console.log('my tuit: '+JSON.stringify(tuitsLikedByMe[i]));
               setTuitsdata((tuitData)=>[tuitsLikedByMe[i], ...tuitData]);
           }
       });

@@ -3,7 +3,6 @@ import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import TuitService from "../services/tuits-service";
 import axios from "axios";
-import TuitList from "../components/tuits";
 jest.mock('axios');
 
 
@@ -46,7 +45,7 @@ test("tuit list renders mocked", async () => {
 
   render(
     <HashRouter>
-      <Tuits tuits={newTuits1.tuits} />
+      <Tuits tuits={newTuits1.tuits} isTuitStatPresent={false}/>
     </HashRouter>
   );
 

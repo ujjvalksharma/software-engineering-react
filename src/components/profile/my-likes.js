@@ -20,8 +20,12 @@ const Mylikes =() =>{
       .then((tuitsLikedByMe)=>{
           
           for (let i=0;i<tuitsLikedByMe.length;i++) {
-              console.log('json: '+JSON.stringify(tuitsLikedByMe[i]));
-              setTuitsdata((tuitData)=>[tuitsLikedByMe[i].likedTuit, ...tuitData]);
+              const tempTuit={
+                  ...tuitsLikedByMe[i].likedTuit,
+                  postedBy: tuitsLikedByMe[i].likedBy
+
+              };
+              setTuitsdata((tuitData)=>[tempTuit, ...tuitData]);
           }
       });
 
