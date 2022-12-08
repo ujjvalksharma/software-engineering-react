@@ -7,53 +7,42 @@ import axios from "axios";
 import TuitList from "../components/tuits";
 import UserService from "../services/user-service";
 import DislikeService from "../services/dislikes-service";
+import LikeService from "../services/likes-service";
 
 
 test('Render liked tuits', async () => {
 
-//const userids = ['6359de6091bbeb778a1bd617', '6359df7e00d849e6b23c598a', '635c503a9567e5d3fbe978a5']
-const userId = '6359de6091bbeb778a1bd617';
+
+  const userId = '6359de6091bbeb778a1bd617';
 const tuitIds = ['635c50ea9567e5d3fbe978b5','635c510e9567e5d3fbe978b8', '635c511c9567e5d3fbe978ba'];
 
 for(let i=0;i<tuitIds.length;i++){
   await DislikeService.createDislike(userId,tuitIds[i]);
 }
 let tuits =[];
-DislikeService.findTuitsDislikedByAUser(userId)
-.then((tuitsDislikedByMe)=>{
-    
-  console.log('tuitsDislikedByMe: '+JSON.stringify(tuitsDislikedByMe));
-    for (let i=0;i<tuitsDislikedByMe.length;i++) {
-        const tempTuit={
-            ...tuitsDislikedByMe[i].dislikedTuit,
-            postedBy: tuitsLikedByMe[i].dislikedBy
+const tuitsLikedByMe= await  DislikeService.findTuitsDislikedByAUser(userId);
 
-        };
-        tuits.push(tempTuit);
-    }
-    console.log('tuits: '+JSON.stringify(tuits));
+for (let i=0;i<tuitsLikedByMe.length;i++) {
+  const tuitOwner= await UserService.findUserById(tuitsLikedByMe[i].dislikedTuit.postedBy);
+  const tempTuit={
+      ...tuitsLikedByMe[i].dislikedTuit,
+      postedBy: tuitOwner===null?{'username':'tuiterapp'+i}:tuitOwner
 
-    render( 
-      <HashRouter>
-        <TuitList tuits={tuits} isTuitStatPresent={false}/>
-      </HashRouter>); 
-    
-    const linkElement = screen.getByText(/@NASAPersevere/i);
-    expect(linkElement).toBeInTheDocument();
-    
-   const deletelikedTuits = async() =>{
-    for(let i=0;i<tuitIds.length;i++){
-      await DislikeService.deleteDislike(userId,tuitIds[i]);
-    }
-   }
+  };
+    tuits.push(tempTuit);
+}
+render( 
+  <HashRouter>
+    <TuitList tuits={tuits} isTuitStatPresent={false}/>
+  </HashRouter>); 
 
-    deletelikedTuits();
-
-});
-
-
-
+const linkElement = screen.getByText(/tuiterapp1@tuiterapp1/i);
+expect(linkElement).toBeInTheDocument();
  
+for(let i=0;i<tuitIds.length;i++){
+  await DislikeService.deleteDislike(userId,tuitIds[i]);
+}
+
 
   });
 

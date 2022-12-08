@@ -11,7 +11,6 @@ import LikeService from "../services/likes-service";
 
 test('Render liked tuits', async () => {
 
-//const userids = ['6359de6091bbeb778a1bd617', '6359df7e00d849e6b23c598a', '635c503a9567e5d3fbe978a5']
 const userId = '6359de6091bbeb778a1bd617';
 const tuitIds = ['635c50ea9567e5d3fbe978b5','635c510e9567e5d3fbe978b8', '635c511c9567e5d3fbe978ba'];
 
@@ -19,41 +18,28 @@ for(let i=0;i<tuitIds.length;i++){
   await LikeService.createLike(userId,tuitIds[i]);
 }
 let tuits =[];
-LikeService.findTuitsLikedByAUser(userId)
-.then((tuitsLikedByMe)=>{
-    
-  console.log('tuitsLikedByMe: '+JSON.stringify(tuitsLikedByMe));
-    for (let i=0;i<tuitsLikedByMe.length;i++) {
-        const tempTuit={
-            ...tuitsLikedByMe[i].likedTuit,
-            postedBy: tuitsLikedByMe[i].likedBy
+const tuitsLikedByMe= await  LikeService.findTuitsLikedByAUser(userId);
 
-        };
-        tuits.push(tempTuit);
-    }
-    console.log('tuits: '+JSON.stringify(tuits));
+for (let i=0;i<tuitsLikedByMe.length;i++) {
+  const tuitOwner= await UserService.findUserById(tuitsLikedByMe[i].likedTuit.postedBy);
+  const tempTuit={
+      ...tuitsLikedByMe[i].likedTuit,
+      postedBy: tuitOwner===null?{'username':'tuiterapp'+i}:tuitOwner
 
-    render( 
-      <HashRouter>
-        <TuitList tuits={tuits} isTuitStatPresent={false}/>
-      </HashRouter>); 
-    
-    const linkElement = screen.getByText(/@NASAPersevere/i);
-    expect(linkElement).toBeInTheDocument();
-    
-   const deletelikedTuits = async() =>{
-    for(let i=0;i<tuitIds.length;i++){
-      await LikeService.deleteLike(userId,tuitIds[i]);
-    }
-   }
+  };
+    tuits.push(tempTuit);
+}
+render( 
+  <HashRouter>
+    <TuitList tuits={tuits} isTuitStatPresent={false}/>
+  </HashRouter>); 
 
-    deletelikedTuits();
-
-});
-
-
-
+const linkElement = screen.getByText(/tuiterapp1@tuiterapp1/i);
+expect(linkElement).toBeInTheDocument();
  
+for(let i=0;i<tuitIds.length;i++){
+  await LikeService.deleteLike(userId,tuitIds[i]);
+}
 
   });
 
