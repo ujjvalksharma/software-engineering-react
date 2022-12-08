@@ -56,7 +56,7 @@ import {UserList} from "../components/profile/user-list";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import UserService from "../services/user-service";
-//import axios from "axios";
+import axios from "axios";
 
 jest.mock('axios');
 

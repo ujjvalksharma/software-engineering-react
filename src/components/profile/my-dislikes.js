@@ -11,21 +11,37 @@ const MyDislikes =() =>{
     const navigate = useNavigate();
     const userId = localStorage.getItem('profile') === null ? '-1' :  JSON.parse(localStorage.getItem('profile'))._id;
     useEffect(() => {
-      
+     
         const tempProfile = localStorage.getItem('profile');
         if(tempProfile!== undefined && tempProfile!== null){
       const profileData =JSON.parse(tempProfile);
       
       DisLikeService.findTuitsDislikedByAUser(profileData._id)
-      .then((tuitsLikedByMe)=>{
-          
-          for (let i=0;i<tuitsLikedByMe.length;i++) {
-              console.log('json: '+JSON.stringify(tuitsLikedByMe[i]));
-              setTuitsdata((tuitData)=>[tuitsLikedByMe[i].dislikedTuit, ...tuitData]);
-          }
-      });
+      .then((tuitsdislikedByMe)=>{
+        console.log('tuitsdislikedByMe: '+JSON.stringify(tuitsdislikedByMe));
+       
+        const setDislikeTuits = async () =>{
+          for (let i=0;i<tuitsdislikedByMe.length;i++) {
 
+            const tuitOwner= await UserService.findUserById(tuitsdislikedByMe[i].dislikedTuit.postedBy);
+            console.log('dislike tuit owner: '+JSON.stringify(tuitOwner));
+            const tempTuit={
+                ...tuitsdislikedByMe[i].dislikedTuit,
+                postedBy: tuitOwner
+
+            };
+              setTuitsdata((tuitData)=>[tempTuit, ...tuitData]);
+          }
         }
+
+        setDislikeTuits();
+        
+
+      });
+        
+        }
+
+
 
     }, []);
     
