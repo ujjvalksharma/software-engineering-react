@@ -2,7 +2,8 @@
  * @file Service file to call dislikes api
  */
 import axios from "axios";
-const BASE_URL = "http://localhost:4000"
+//const BASE_URL = "http://localhost:4000"
+const BASE_URL = "https://software-engineering-a1-node-a.herokuapp.com/ "
 const USERS_API = `${BASE_URL}/users`;
 const TUITS_API = `${BASE_URL}/tuits`;
 

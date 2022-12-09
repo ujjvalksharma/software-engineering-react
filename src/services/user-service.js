@@ -2,8 +2,8 @@
  * @file Service file to call user api
  */
 import axios from "axios";
-const BASE_URL = "http://localhost:4000";
-
+//const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://software-engineering-a1-node-a.herokuapp.com/ "
 const LOGIN_API = `${BASE_URL}/auth/login`;
 const SIGNUP_API = `${BASE_URL}/auth/signup`;
 const PROFILE_API = `${BASE_URL}/auth/profile`;
