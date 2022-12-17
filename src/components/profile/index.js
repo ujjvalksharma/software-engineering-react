@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from "react";
 import {Routes, Route} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import UserService from '../../services/user-service';
 /*
 import MyTuits from "./my-tuits";
 import TuitsAndReplies
@@ -25,6 +26,11 @@ const Profile = () => {
 
 
   const logout =()=>{
+
+    const logoutFromServer = async () =>{
+     const logoutData= await UserService.logout();
+    }
+    logoutFromServer();
    localStorage.removeItem('profile');
    navigate('../login');
   }

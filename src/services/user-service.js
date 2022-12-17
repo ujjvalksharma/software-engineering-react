@@ -101,7 +101,8 @@ const service = {
   findUserById,
   createUser,
   findAllUsers,
-  myProfile
+  myProfile,
+  logout
 
 }
 
