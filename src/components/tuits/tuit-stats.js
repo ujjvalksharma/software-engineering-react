@@ -85,7 +85,6 @@ if(!isTuitLiked){
 
     return (
       <>
-      <p>{tuit._id}</p>
       <div className="row mt-2">
         <div className="col">
           <i className="far fa-message me-1"></i>

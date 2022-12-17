@@ -67,7 +67,7 @@ test('tuit list renders async', async () => {
       <TuitList tuits={tempTuits} isTuitStatPresent={false}/>
     </HashRouter>); 
 
-  const linkElement = screen.getByText(/tuiterapp1@tuiterapp1/i);
+  const linkElement = screen.getByText(/coco@coco/i);
   expect(linkElement).toBeInTheDocument();
  
 
