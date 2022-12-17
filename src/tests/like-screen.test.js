@@ -21,13 +21,13 @@ test('Render liked tuits', async () => {
     tuitIds.push(tuit._id);
   }
 
-  console.log('I am here1');
+
 for(let i=0;i<tuitIds.length;i++){
   await LikeService.createLike(userId,tuitIds[i]);
 }
 let tuits =[];
 const tuitsLikedByMe= await  LikeService.findTuitsLikedByAUser(userId);
-console.log('I am here2');
+
 for (let i=0;i<tuitsLikedByMe.length;i++) {
   const tuitOwner= await UserService.findUserById(tuitsLikedByMe[i].likedTuit.postedBy);
   const tempTuit={
@@ -37,7 +37,7 @@ for (let i=0;i<tuitsLikedByMe.length;i++) {
   };
     tuits.push(tempTuit);
 }
-console.log('I am here3');
+
 render( 
   <HashRouter>
     <TuitList tuits={tuits} isTuitStatPresent={false}/>
