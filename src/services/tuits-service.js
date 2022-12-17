@@ -2,8 +2,8 @@
  * @file Service file to call tuit api
  */
 import axios from "axios";
-//const BASE_URL = "http://localhost:4000"
-const BASE_URL = "https://software-engineering-a1-node-a.herokuapp.com/ "
+const BASE_URL = "http://localhost:4000"
+//const BASE_URL = "https://software-engineering-a1-node-a.herokuapp.com/ "
 const TUITS_API = `${BASE_URL}/tuits`;
 const USERS_API = `${BASE_URL}/users`;
 
